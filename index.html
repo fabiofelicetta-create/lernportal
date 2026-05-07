@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Felicettas Klasse</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F4F8FB;
+  --navy:#1B3A5C;--navy-m:#2B5080;
+  --blue:#3B6EA8;--blue-l:#C5D9EF;--blue-ll:#E8F0FA;
+  --mint:#3AAFA0;--mint-l:#A8DDD8;--mint-ll:#DFF4F2;--mint-lll:#F0FAF9;
+  --gold:#C49A2A;--gold-l:#F5E6B8;
+  --rose:#C45E78;--rose-l:#F5C4CF;--rose-ll:#FDF0F3;
+  --purple:#6B5EA8;--purple-l:#D4CEEE;--purple-ll:#F0EEF9;
+  --teal:#2A8C7E;
+  --dark:#0F2233;--text:#233040;--text-m:#5A6A78;--white:#FFFFFF;
+  --radius:14px;--radius-sm:10px;
+  --shadow:0 3px 16px rgba(27,58,92,0.09);--shadow-h:0 7px 28px rgba(27,58,92,0.15);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Poppins',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* BG BLOBS */
+.bg-blobs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.blob{position:absolute;border-radius:50%;opacity:.05}
+.blob-1{width:600px;height:600px;background:var(--navy);top:-200px;right:-100px}
+.blob-2{width:400px;height:400px;background:var(--mint);bottom:100px;left:-150px}
+.blob-3{width:300px;height:300px;background:var(--blue);top:40%;right:-80px}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(244,248,251,0.95);backdrop-filter:blur(12px);border-bottom:1.5px solid var(--blue-l);padding:0 24px;display:flex;align-items:center;gap:14px;height:60px}
+.logo{font-family:'Bricolage Grotesque',sans-serif;font-size:18px;font-weight:800;color:var(--navy);white-space:nowrap;text-decoration:none}
+.logo span{color:var(--mint)}
+.tnav{display:flex;gap:3px;flex:1;justify-content:center;flex-wrap:wrap}
+.npill{display:flex;align-items:center;gap:6px;padding:6px 13px;border-radius:100px;font-size:13px;font-weight:500;cursor:pointer;border:none;background:transparent;color:var(--text-m);transition:all .2s;font-family:'Poppins',sans-serif;text-decoration:none}
+.npill:hover{background:var(--blue-ll);color:var(--navy)}
+.npill.active{background:var(--navy);color:#fff}
+.npill i{font-size:12px}
+.tdate{font-size:12px;color:var(--text-m);white-space:nowrap;display:flex;align-items:center;gap:5px}
+.tdate i{color:var(--mint)}
+
+main{position:relative;z-index:1}
+.section{display:none;animation:fi .3s ease}
+.section.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes sd{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pi{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:scale(1)}}
+
+.wrap{max-width:960px;margin:0 auto;padding:36px 24px 64px}
+
+/* HERO */
+.hero{text-align:center;padding:44px 16px 32px}
+.kbadge{display:inline-block;background:var(--navy);color:#fff;font-family:'Bricolage Grotesque',sans-serif;font-size:11px;font-weight:600;padding:4px 14px;border-radius:100px;letter-spacing:.8px;text-transform:uppercase;margin-bottom:14px;animation:sd .5s ease .1s both}
+.htitle{font-family:'Bricolage Grotesque',sans-serif;font-size:clamp(34px,5.5vw,58px);font-weight:800;line-height:1.1;color:var(--dark);letter-spacing:-1.5px;margin-bottom:12px;animation:sd .5s ease .2s both}
+.htitle .a1{color:var(--mint)}.htitle .a2{color:var(--navy)}
+.hsub{font-size:15px;color:var(--text-m);max-width:420px;margin:0 auto 24px;line-height:1.7;animation:sd .5s ease .3s both}
+.dbadge{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1.5px solid var(--blue-l);border-radius:100px;padding:7px 18px;font-size:13px;color:var(--text-m);animation:sd .5s ease .4s both}
+.dbadge i{color:var(--mint)}
+
+/* ANKÜNDIGUNG */
+.abox{background:#fff;border-radius:var(--radius);border-left:4px solid var(--gold);padding:16px 18px;margin:20px 0;box-shadow:var(--shadow);display:flex;align-items:flex-start;gap:13px;animation:sd .4s ease .5s both}
+.aicon{width:36px;height:36px;background:var(--gold-l);border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:15px;flex-shrink:0}
+.atitle{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:15px;color:var(--dark);margin-bottom:3px}
+.atext{font-size:13px;color:var(--text-m);line-height:1.5}
+
+/* TILES */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:28px 0}
+.tile{background:#fff;border-radius:var(--radius);padding:22px 14px;display:flex;flex-direction:column;align-items:center;gap:11px;cursor:pointer;border:2px solid transparent;box-shadow:var(--shadow);transition:all .25s cubic-bezier(.34,1.56,.64,1);text-align:center}
+.tile:nth-child(1){animation:pi .4s cubic-bezier(.34,1.56,.64,1) .10s both}
+.tile:nth-child(2){animation:pi .4s cubic-bezier(.34,1.56,.64,1) .15s both}
+.tile:nth-child(3){animation:pi .4s cubic-bezier(.34,1.56,.64,1) .20s both}
+.tile:nth-child(4){animation:pi .4s cubic-bezier(.34,1.56,.64,1) .25s both}
+.tile:hover{transform:translateY(-6px) scale(1.03);box-shadow:var(--shadow-h)}
+.ticon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px}
+.tlabel{font-family:'Bricolage Grotesque',sans-serif;font-size:15px;font-weight:700;color:var(--dark);line-height:1.2}
+.tsub{font-size:11px;color:var(--text-m);line-height:1.4}
+
+/* SCHNELL */
+.schnell{display:grid;grid-template-columns:1fr 1fr;gap:12px;animation:sd .4s ease .6s both}
+.scard{background:#fff;border-radius:var(--radius-sm);padding:14px 16px;box-shadow:var(--shadow);display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;border:1.5px solid transparent}
+.scard:hover{transform:translateY(-2px);border-color:var(--blue-l)}
+.sicon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.slabel{font-size:11px;color:var(--text-m);margin-bottom:2px}
+.sval{font-size:13px;font-weight:600;color:var(--dark)}
+
+/* SEC HEADER */
+.sechdr{display:flex;align-items:center;gap:13px;margin-bottom:26px}
+.sechdr-icon{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.sechdr-title{font-family:'Bricolage Grotesque',sans-serif;font-size:26px;font-weight:800;color:var(--dark);letter-spacing:-.5px}
+.sechdr-sub{font-size:12px;color:var(--text-m);margin-top:2px}
+
+/* LERNZIELE */
+.ftabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.ftab{padding:7px 18px;border-radius:100px;font-size:13px;font-weight:500;cursor:pointer;border:2px solid var(--blue-l);transition:all .2s;background:#fff;color:var(--text-m);font-family:'Poppins',sans-serif}
+.ftab:hover{border-color:var(--navy)}.ftab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+.tcard{background:#fff;border-radius:var(--radius);overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow)}
+.thdr{padding:13px 18px;display:flex;align-items:center;gap:10px}
+.tdot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.ttitle{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:700;flex:1;color:var(--dark)}
+.tcnt{font-size:12px;color:var(--text-m);font-weight:500}
+.pbar{height:4px;background:var(--blue-ll);margin:0 18px 12px;border-radius:2px;overflow:hidden}
+.pfill{height:100%;border-radius:2px;transition:width .5s ease}
+.cbhdrs{display:grid;grid-template-columns:1fr 52px 52px 52px;padding:5px 18px 4px;border-top:1px solid var(--blue-ll)}
+.cblbl{font-size:10px;font-weight:600;text-align:center}
+.lzrow{display:grid;grid-template-columns:1fr 52px 52px 52px;align-items:center;padding:10px 18px;border-top:1px solid var(--blue-ll);font-size:13px;color:var(--text);transition:background .15s;line-height:1.5}
+.lzrow:hover{background:var(--mint-lll)}
+.lznum{font-weight:700;font-size:11px;margin-right:6px}
+.cbw{display:flex;justify-content:center}
+.cb{width:22px;height:22px;border-radius:6px;border:2px solid;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s cubic-bezier(.34,1.56,.64,1);font-size:11px}
+.cb.g{border-color:#2E9E5A}.cb.y{border-color:#C49A2A}.cb.r{border-color:#C45E78}
+.cb.ag{background:#2E9E5A;color:#fff}.cb.ay{background:#C49A2A;color:#fff}.cb.ar{background:#C45E78;color:#fff}
+.cb:hover{transform:scale(1.2)}
+
+/* TIPP TOGGLE */
+.tipp-toggle{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--mint);font-weight:500;cursor:pointer;padding:6px 18px;border-top:1px solid var(--mint-ll);background:var(--mint-lll)}
+.tipp-toggle i{font-size:10px;transition:transform .2s}
+.tipp-toggle.open i{transform:rotate(90deg)}
+.tipp-box{display:none;padding:10px 18px;background:var(--mint-lll);font-size:12px;color:var(--teal);line-height:1.6;border-top:1px solid var(--mint-ll)}
+.tipp-box.visible{display:block}
+
+/* MATERIALIEN */
+.srchwrap{position:relative;margin-bottom:20px}
+.srchwrap i{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-m);font-size:14px}
+.srchinp{width:100%;padding:10px 14px 10px 38px;border:1.5px solid var(--blue-l);border-radius:100px;font-family:'Poppins',sans-serif;font-size:13px;background:#fff;color:var(--text);outline:none;transition:border-color .2s}
+.srchinp:focus{border-color:var(--navy)}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
+.mcard{background:#fff;border-radius:var(--radius-sm);padding:18px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:9px;transition:all .2s;cursor:pointer;border:1.5px solid transparent}
+.mcard:hover{transform:translateY(-3px);box-shadow:var(--shadow-h);border-color:var(--blue-l)}
+.micon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.mtitle{font-weight:600;font-size:13px;color:var(--dark)}
+.mdesc{font-size:11px;color:var(--text-m);line-height:1.4}
+.mfooter{display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+.mbadge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:100px;background:var(--mint-ll);color:var(--teal)}
+.mdl{width:30px;height:30px;border-radius:8px;background:var(--blue-ll);color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .2s}
+.mcard:hover .mdl{background:var(--navy);color:#fff}
+
+/* AGENDA */
+.agrid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.acoltitle{font-family:'Bricolage Grotesque',sans-serif;font-size:17px;font-weight:700;color:var(--dark);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.aitem{background:#fff;border-radius:var(--radius-sm);padding:13px 16px;margin-bottom:10px;box-shadow:var(--shadow);border-left:4px solid;transition:transform .2s}
+.aitem:hover{transform:translateX(4px)}
+.afach{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.atext{font-size:13px;color:var(--dark);margin-bottom:4px;font-weight:500}
+.adate{font-size:11px;color:var(--text-m);display:flex;align-items:center;gap:4px}
+.hbadge{background:var(--gold);color:#fff;font-size:9px;font-weight:700;padding:1px 6px;border-radius:100px;margin-left:6px}
+
+/* KLASSENINFO */
+.kontakt{background:#fff;border-radius:var(--radius);padding:22px;box-shadow:var(--shadow);display:flex;gap:18px;align-items:center;margin-bottom:22px}
+.kavatar{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--blue));display:flex;align-items:center;justify-content:center;font-family:'Bricolage Grotesque',sans-serif;font-size:22px;font-weight:800;color:#fff;flex-shrink:0}
+.kname{font-family:'Bricolage Grotesque',sans-serif;font-size:19px;font-weight:800;color:var(--dark)}
+.krow{font-size:13px;color:var(--text-m);margin-top:4px;display:flex;align-items:center;gap:6px}
+.krow i{color:var(--mint);width:14px}
+.sptable{width:100%;border-collapse:collapse;background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);font-size:12px;margin-bottom:24px}
+.sptable th{background:var(--navy);color:#fff;padding:10px 8px;text-align:center;font-family:'Bricolage Grotesque',sans-serif;font-weight:600}
+.sptable td{padding:10px 8px;text-align:center;border-bottom:1px solid var(--blue-ll);color:var(--text)}
+.sptable tr:last-child td{border-bottom:none}
+.sptable td:first-child{font-weight:600;color:var(--text-m);background:var(--blue-ll);font-size:11px}
+.fchip{display:inline-block;padding:3px 9px;border-radius:100px;font-size:11px;font-weight:600}
+.sectlbl{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:700;color:var(--dark);margin:22px 0 13px;display:flex;align-items:center;gap:8px}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:11px}
+.lcard{background:#fff;border-radius:var(--radius-sm);padding:14px;display:flex;align-items:center;gap:10px;box-shadow:var(--shadow);transition:all .2s;cursor:pointer;border:1.5px solid transparent}
+.lcard:hover{border-color:var(--blue-l);transform:translateY(-2px)}
+.licon{font-size:19px}.llabel{font-size:13px;font-weight:600;color:var(--dark)}
+
+@media(max-width:600px){
+  .tiles{grid-template-columns:1fr 1fr}
+  .schnell{grid-template-columns:1fr}
+  .agrid{grid-template-columns:1fr}
+  .tnav{display:none}
+}
+</style>
+</head>
+<body>
+<div class="bg-blobs">
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
+</div>
+
+<header class="topbar">
+  <a class="logo" href="#" onclick="showSection('start')">Felicettas <span>Klasse</span></a>
+  <nav class="tnav">
+    <a class="npill active" id="nav-start"       onclick="showSection('start')">       <i class="fa-solid fa-house"></i> Start</a>
+    <a class="npill"        id="nav-lernziele"   onclick="showSection('lernziele')">   <i class="fa-solid fa-list-check"></i> Lernziele</a>
+    <a class="npill"        id="nav-materialien" onclick="showSection('materialien')"> <i class="fa-solid fa-folder-open"></i> Materialien</a>
+    <a class="npill"        id="nav-agenda"      onclick="showSection('agenda')">      <i class="fa-solid fa-calendar-days"></i> Agenda</a>
+    <a class="npill"        id="nav-klasseninfo" onclick="showSection('klasseninfo')"> <i class="fa-solid fa-circle-info"></i> Klasseninfos</a>
+  </nav>
+  <div class="tdate"><i class="fa-regular fa-calendar"></i><span id="top-date"></span></div>
+</header>
+
+<main>
+<!-- START -->
+<section class="section active" id="sec-start"><div class="wrap">
+  <div class="hero">
+    <div class="kbadge">Willkommen</div>
+    <h1 class="htitle">Guten <span class="a1" id="tageszeit">Tag</span>,<br><span class="a2">Felicettas Klasse!</span></h1>
+    <p class="hsub">Hier findest du alles was du für die Schule brauchst – Lernziele, Materialien, Hausaufgaben und mehr.</p>
+    <div class="dbadge"><i class="fa-regular fa-calendar-check"></i><span id="hero-date"></span></div>
+  </div>
+  <div id="ankuendigung-box"></div>
+  <div class="tiles">
+    <div class="tile" onclick="showSection('lernziele')" style="border-color:var(--mint-l)" onmouseenter="this.style.borderColor='var(--mint)'" onmouseleave="this.style.borderColor='var(--mint-l)'">
+      <div class="ticon" style="background:var(--mint-ll);color:var(--teal)"><i class="fa-solid fa-list-check"></i></div>
+      <div class="tlabel">Lernziele</div><div class="tsub">Ampel-Checkliste pro Fach</div>
+    </div>
+    <div class="tile" onclick="showSection('materialien')" style="border-color:var(--blue-l)" onmouseenter="this.style.borderColor='var(--blue)'" onmouseleave="this.style.borderColor='var(--blue-l)'">
+      <div class="ticon" style="background:var(--blue-ll);color:var(--blue)"><i class="fa-solid fa-folder-open"></i></div>
+      <div class="tlabel">Materialien</div><div class="tsub">Arbeitsblätter & Downloads</div>
+    </div>
+    <div class="tile" onclick="showSection('agenda')" style="border-color:var(--gold-l)" onmouseenter="this.style.borderColor='var(--gold)'" onmouseleave="this.style.borderColor='var(--gold-l)'">
+      <div class="ticon" style="background:var(--gold-l);color:var(--gold)"><i class="fa-solid fa-calendar-days"></i></div>
+      <div class="tlabel">Agenda</div><div class="tsub">Hausaufgaben & Prüfungen</div>
+    </div>
+    <div class="tile" onclick="showSection('klasseninfo')" style="border-color:var(--purple-l)" onmouseenter="this.style.borderColor='var(--purple)'" onmouseleave="this.style.borderColor='var(--purple-l)'">
+      <div class="ticon" style="background:var(--purple-ll);color:var(--purple)"><i class="fa-solid fa-circle-info"></i></div>
+      <div class="tlabel">Klasseninfos</div><div class="tsub">Stundenplan & Kontakt</div>
+    </div>
+  </div>
+  <div class="schnell" id="schnell-box"></div>
+</div></section>
+
+<!-- LERNZIELE -->
+<section class="section" id="sec-lernziele"><div class="wrap">
+  <div class="sechdr">
+    <div class="sechdr-icon" style="background:var(--mint-ll);color:var(--teal)"><i class="fa-solid fa-list-check"></i></div>
+    <div><div class="sechdr-title">Lernziele</div><div class="sechdr-sub">Kreuze nach jeder Lerneinheit an wie sicher du dich fühlst</div></div>
+  </div>
+  <div class="ftabs" id="fach-tabs"></div>
+  <div id="lz-content"></div>
+</div></section>
+
+<!-- MATERIALIEN -->
+<section class="section" id="sec-materialien"><div class="wrap">
+  <div class="sechdr">
+    <div class="sechdr-icon" style="background:var(--blue-ll);color:var(--blue)"><i class="fa-solid fa-folder-open"></i></div>
+    <div><div class="sechdr-title">Materialien</div><div class="sechdr-sub">Alle Unterlagen nach Fach sortiert</div></div>
+  </div>
+  <div class="srchwrap"><i class="fa-solid fa-magnifying-glass"></i><input class="srchinp" id="mat-search" type="text" placeholder="Dokument suchen…" oninput="filterMat()"></div>
+  <div class="mgrid" id="mat-grid"></div>
+</div></section>
+
+<!-- AGENDA -->
+<section class="section" id="sec-agenda"><div class="wrap">
+  <div class="sechdr">
+    <div class="sechdr-icon" style="background:var(--gold-l);color:var(--gold)"><i class="fa-solid fa-calendar-days"></i></div>
+    <div><div class="sechdr-title">Agenda</div><div class="sechdr-sub">Hausaufgaben, Prüfungen und Termine im Überblick</div></div>
+  </div>
+  <div class="agrid">
+    <div><div class="acoltitle"><i class="fa-solid fa-pencil" style="color:var(--gold)"></i>Hausaufgaben</div><div id="ha-list"></div></div>
+    <div><div class="acoltitle"><i class="fa-solid fa-star" style="color:var(--rose)"></i>Prüfungen</div><div id="pruef-list"></div></div>
+  </div>
+</div></section>
+
+<!-- KLASSENINFO -->
+<section class="section" id="sec-klasseninfo"><div class="wrap">
+  <div class="sechdr">
+    <div class="sechdr-icon" style="background:var(--purple-ll);color:var(--purple)"><i class="fa-solid fa-circle-info"></i></div>
+    <div><div class="sechdr-title">Klasseninfos</div><div class="sechdr-sub">Stundenplan, Kontakt und wichtige Links</div></div>
+  </div>
+  <div class="kontakt">
+    <div class="kavatar">F</div>
+    <div>
+      <div class="kname" id="lp-name"></div>
+      <div class="krow"><i class="fa-solid fa-envelope"></i><span id="lp-email"></span></div>
+      <div class="krow"><i class="fa-solid fa-clock"></i><span id="lp-sprechstunde"></span></div>
+      <div class="krow"><i class="fa-solid fa-school"></i><span id="lp-schule"></span></div>
+    </div>
+  </div>
+  <div class="sectlbl"><i class="fa-solid fa-table" style="color:var(--blue)"></i>Stundenplan</div>
+  <table class="sptable"><thead><tr><th>Lektion</th><th>Montag</th><th>Dienstag</th><th>Mittwoch</th><th>Donnerstag</th><th>Freitag</th></tr></thead><tbody id="sp-body"></tbody></table>
+  <div class="sectlbl"><i class="fa-solid fa-link" style="color:var(--mint)"></i>Wichtige Links</div>
+  <div class="lgrid" id="links-grid"></div>
+</div></section>
+</main>
+
+<script src="data.js"></script>
+<script>
+// ── NAVIGATION ─────────────────────────────────────────────
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.npill').forEach(n=>n.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  document.getElementById('nav-'+id).classList.add('active');
+  if(id==='lernziele')   renderLernziele();
+  if(id==='materialien') renderMaterialien();
+  if(id==='agenda')      renderAgenda();
+  if(id==='klasseninfo') renderKlasseninfo();
+}
+
+// ── DATUM & BEGRÜSSUNG ──────────────────────────────────────
+function setupDatum(){
+  const n=new Date(), h=n.getHours();
+  document.getElementById('tageszeit').textContent=h<12?'Morgen':h<17?'Tag':'Abend';
+  document.getElementById('hero-date').textContent=n.toLocaleDateString('de-CH',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('top-date').textContent=n.toLocaleDateString('de-CH',{day:'numeric',month:'short',year:'numeric'});
+}
+
+// ── START ───────────────────────────────────────────────────
+function renderStart(){
+  // Ankündigung
+  const a=DATA.ankuendigung;
+  if(a&&a.text){
+    document.getElementById('ankuendigung-box').innerHTML=
+      `<div class="abox"><div class="aicon"><i class="fa-solid fa-bullhorn"></i></div>
+      <div><div class="atitle">${a.titel}</div><div class="atext">${a.text}</div></div></div>`;
+  }
+  // Schnellübersicht
+  const naechsteHA   = DATA.hausaufgaben.find(h=>new Date(h.datum)>=new Date());
+  const naechstePR   = DATA.pruefungen.find(p=>new Date(p.datum)>=new Date());
+  document.getElementById('schnell-box').innerHTML=`
+    ${naechsteHA?`<div class="scard" onclick="showSection('agenda')">
+      <div class="sicon" style="background:var(--gold-l);color:var(--gold)"><i class="fa-solid fa-pencil"></i></div>
+      <div><div class="slabel">Nächste Hausaufgabe</div><div class="sval">${naechsteHA.fach} – ${new Date(naechsteHA.datum).toLocaleDateString('de-CH',{weekday:'short',day:'numeric',month:'short'})}</div></div>
+    </div>`:''}
+    ${naechstePR?`<div class="scard" onclick="showSection('agenda')">
+      <div class="sicon" style="background:var(--rose-ll);color:var(--rose)"><i class="fa-solid fa-star"></i></div>
+      <div><div class="slabel">Nächste Prüfung</div><div class="sval">${naechstePR.fach} – ${new Date(naechstePR.datum).toLocaleDateString('de-CH',{weekday:'short',day:'numeric',month:'short'})}</div></div>
+    </div>`:''}`;
+}
+
+// ── LERNZIELE ───────────────────────────────────────────────
+let activeFach=null;
+let checks=JSON.parse(localStorage.getItem('lz_checks')||'{}');
+function saveChecks(){localStorage.setItem('lz_checks',JSON.stringify(checks));}
+
+function setCheck(id,col){
+  checks[id]=checks[id]===col?null:col;
+  saveChecks();renderLernziele();
+}
+function toggleTipp(id){
+  const box=document.getElementById('tipp-'+id);
+  const tog=document.getElementById('tog-'+id);
+  box.classList.toggle('visible');
+  tog.classList.toggle('open');
+}
+
+function renderLernziele(){
+  const faecher=Object.keys(DATA.faecher);
+  if(!activeFach)activeFach=faecher[0];
+  document.getElementById('fach-tabs').innerHTML=faecher.map(f=>
+    `<button class="ftab ${f===activeFach?'active':''}"
+      style="${f===activeFach?'background:'+DATA.faecher[f].farbe+';border-color:'+DATA.faecher[f].farbe+';':''}"
+      onclick="activeFach='${f}';renderLernziele()">${f}</button>`
+  ).join('');
+  const fach=DATA.faecher[activeFach];
+  let html='';
+  fach.themen.forEach((th,ti)=>{
+    const fc=fach.themaFarben[ti]||fach.farbe;
+    const done=th.lernziele.filter(l=>checks[l.id]==='g').length;
+    const pct=Math.round(done/th.lernziele.length*100);
+    html+=`<div class="tcard">
+      <div class="thdr"><div class="tdot" style="background:${fc}"></div><div class="ttitle">${th.num}. ${th.titel}</div><div class="tcnt">${done}/${th.lernziele.length}</div></div>
+      <div class="pbar"><div class="pfill" style="width:${pct}%;background:${fc}"></div></div>
+      <div class="cbhdrs"><div></div><div class="cblbl" style="color:#2E9E5A">&#10003;</div><div class="cblbl" style="color:#C49A2A">~</div><div class="cblbl" style="color:#C45E78">&#10007;</div></div>`;
+    th.lernziele.forEach((lz,i)=>{
+      html+=`<div class="lzrow">
+        <div><span class="lznum" style="color:${fc}">${th.num}.${i+1}</span>  ${lz.text}</div>
+        <div class="cbw"><div class="cb g ${checks[lz.id]==='g'?'ag':''}" onclick="setCheck('${lz.id}','g')"><i class="fa-solid fa-check"></i></div></div>
+        <div class="cbw"><div class="cb y ${checks[lz.id]==='y'?'ay':''}" onclick="setCheck('${lz.id}','y')"><i class="fa-solid fa-minus"></i></div></div>
+        <div class="cbw"><div class="cb r ${checks[lz.id]==='r'?'ar':''}" onclick="setCheck('${lz.id}','r')"><i class="fa-solid fa-xmark"></i></div></div>
+      </div>`;
+    });
+    if(th.tipps&&th.tipps.length){
+      html+=`<div class="tipp-toggle" id="tog-${ti}" onclick="toggleTipp(${ti})">
+        <i class="fa-solid fa-chevron-right"></i> Lerntipps anzeigen
+      </div>
+      <div class="tipp-box" id="tipp-${ti}">
+        ${th.tipps.map(t=>`<div style="margin-bottom:6px">&#128218; ${t}</div>`).join('')}
+      </div>`;
+    }
+    html+=`</div>`;
+  });
+  document.getElementById('lz-content').innerHTML=html;
+}
+
+// ── MATERIALIEN ─────────────────────────────────────────────
+function renderMaterialien(filter=''){
+  const mat=DATA.materialien.filter(m=>
+    !filter||m.titel.toLowerCase().includes(filter)||m.fach.toLowerCase().includes(filter)
+  );
+  document.getElementById('mat-grid').innerHTML=mat.length?mat.map(m=>
+    `<div class="mcard">
+      <div class="micon" style="background:${m.iconBg};color:${m.iconFarbe}"><i class="fa-solid ${m.icon}"></i></div>
+      <div class="mtitle">${m.titel}</div>
+      <div class="mdesc">${m.beschreibung}</div>
+      <div class="mfooter">
+        ${m.neu?'<span class="mbadge">Neu</span>':'<span></span>'}
+        <a href="${m.url||'#'}" class="mdl" title="Herunterladen" ${m.url?'download':''}>
+          <i class="fa-solid fa-download"></i>
+        </a>
+      </div>
+    </div>`).join(''):`<div style="padding:32px;text-align:center;color:var(--text-m);grid-column:1/-1">Keine Dokumente gefunden.</div>`;
+}
+function filterMat(){renderMaterialien(document.getElementById('mat-search').value.toLowerCase());}
+
+// ── AGENDA ──────────────────────────────────────────────────
+function renderAgenda(){
+  const today=new Date().toDateString();
+  const fmtDate=d=>new Date(d).toLocaleDateString('de-CH',{weekday:'short',day:'numeric',month:'short'});
+  const fmtDateLong=d=>new Date(d).toLocaleDateString('de-CH',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('ha-list').innerHTML=DATA.hausaufgaben
+    .filter(h=>new Date(h.datum)>=new Date(new Date().setHours(0,0,0,0)))
+    .map(h=>{
+      const ih=new Date(h.datum).toDateString()===today;
+      return `<div class="aitem" style="border-color:${h.farbe}">
+        <div class="afach" style="color:${h.farbe}">${h.fach}</div>
+        <div class="atext">${h.text}</div>
+        <div class="adate"><i class="fa-regular fa-calendar" style="color:${h.farbe}"></i>
+          ${fmtDate(h.datum)}${ih?'<span class="hbadge">Heute!</span>':''}</div>
+      </div>`;
+    }).join('')||'<div style="color:var(--text-m);font-size:13px;padding:12px 0">Keine aktuellen Hausaufgaben.</div>';
+
+  document.getElementById('pruef-list').innerHTML=DATA.pruefungen
+    .filter(p=>new Date(p.datum)>=new Date(new Date().setHours(0,0,0,0)))
+    .map(p=>{
+      const ip=new Date(p.datum).toDateString()===today;
+      return `<div class="aitem" style="border-color:${p.farbe}">
+        <div class="afach" style="color:${p.farbe}">${p.fach}</div>
+        <div class="atext">${p.thema}</div>
+        <div class="adate"><i class="fa-regular fa-calendar" style="color:${p.farbe}"></i>
+          ${fmtDateLong(p.datum)}${ip?'<span class="hbadge">Heute!</span>':''}</div>
+      </div>`;
+    }).join('')||'<div style="color:var(--text-m);font-size:13px;padding:12px 0">Keine bevorstehenden Prüfungen.</div>';
+}
+
+// ── KLASSENINFO ─────────────────────────────────────────────
+function renderKlasseninfo(){
+  const lp=DATA.lehrperson;
+  document.getElementById('lp-name').textContent=lp.name;
+  document.getElementById('lp-email').textContent=lp.email;
+  document.getElementById('lp-sprechstunde').textContent=lp.sprechstunde;
+  document.getElementById('lp-schule').textContent=lp.schule;
+
+  document.getElementById('sp-body').innerHTML=DATA.stundenplan.map(row=>
+    `<tr><td>${row.lektion}</td>${row.tage.map(f=>f
+      ?`<td><span class="fchip" style="background:${DATA.fachFarben[f]||'#eee'};color:${DATA.fachFarbenText[f]||'#333'}">${f}</span></td>`
+      :`<td style="color:var(--text-m)">–</td>`
+    ).join('')}</tr>`
+  ).join('');
+
+  document.getElementById('links-grid').innerHTML=DATA.links.map(l=>
+    `<div class="lcard" onclick="window.open('${l.url||'#'}','_blank')">
+      <div class="licon" style="color:${l.farbe}"><i class="fa-solid ${l.icon}"></i></div>
+      <div class="llabel">${l.label}</div>
+    </div>`
+  ).join('');
+}
+
+// ── INIT ────────────────────────────────────────────────────
+setupDatum();
+renderStart();
+</script>
+</body>
+</html>
